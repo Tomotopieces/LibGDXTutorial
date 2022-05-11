@@ -6,13 +6,22 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.awt.*;
 
 /**
- * Brick
+ * 砖块
  *
  * @author Tomoto
  * @version 1.0
  * @since 1.0 2022/5/10 20:14
  */
 public class Brick extends Sprite {
+    /**
+     * 构造初始化
+     *
+     * @param id     id
+     * @param x      横轴坐标
+     * @param y      纵轴坐标
+     * @param width  宽度
+     * @param height 高度
+     */
     public Brick(String id, int x, int y, int width, int height) {
         super(id, new Rectangle(x, y, width, height));
     }

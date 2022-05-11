@@ -8,15 +8,28 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.awt.*;
 
 /**
- * Paddle
+ * 板子
  *
  * @author Tomoto
  * @version 1.0
  * @since 1.0 2022/5/10 14:36
  */
 public class Paddle extends Sprite {
+    /**
+     * 横向速度
+     */
     private int xSpeed;
 
+    /**
+     * 构造初始化
+     *
+     * @param id     id
+     * @param x      横轴坐标
+     * @param y      纵轴坐标
+     * @param width  宽度
+     * @param height 高度
+     * @param xSpeed 横向速度
+     */
     public Paddle(String id, int x, int y, int width, int height, int xSpeed) {
         super(id, new Rectangle(x, y, width, height));
 
@@ -24,17 +37,28 @@ public class Paddle extends Sprite {
     }
 
     public void update() {
+        // 输入与边界检测
         if (pressLeft() && box.x > 0) {
             box.x -= xSpeed;
-        } else if (pressRight() && box.x < Gdx.graphics.getWidth() - box.width) {
+        } else if (isPressRight() && box.x < Gdx.graphics.getWidth() - box.width) {
             box.x += xSpeed;
         }
     }
 
-    private boolean pressRight() {
+    /**
+     * 是否按下右操作的按键
+     *
+     * @return 是否按下右操作的按键
+     */
+    private boolean isPressRight() {
         return Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D);
     }
 
+    /**
+     * 是否按下左操作的按键
+     *
+     * @return 是否按下左操作的按键
+     */
     private boolean pressLeft() {
         return Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A);
     }

@@ -8,19 +8,40 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * Ball
+ * 球
  *
  * @author Tomoto
  * @version 1.0
  * @since 1.0 2022/5/10 9:27
  */
 public class Ball extends Sprite {
+    /**
+     * 半径
+     */
     private int radius;
+    /**
+     * 横向速度
+     */
     private int xSpeed;
+    /**
+     * 纵向速度
+     */
     private int ySpeed;
 
+    /**
+     * 板子
+     */
     private Paddle paddle;
 
+    /**
+     * @param id     id
+     * @param x      横轴坐标
+     * @param y      纵轴坐标
+     * @param radius 半径
+     * @param xSpeed 横向速度
+     * @param ySpeed 纵向速度
+     * @param paddle 板子
+     */
     public Ball(String id, int x, int y, int radius, int xSpeed, int ySpeed, Paddle paddle) {
         super(id, new Rectangle(x, y, radius * 2, radius * 2));
 
@@ -51,14 +72,24 @@ public class Ball extends Sprite {
         shape.circle(box.x, box.y, radius);
     }
 
+    /**
+     * 是否与板子发生碰撞
+     *
+     * @return 是否与板子发生碰撞
+     */
     private boolean collidesWithPaddle() {
         return box.y - radius < paddle.getY() + paddle.getHeight() && box.y > paddle.getY() &&
                 box.x >= paddle.getX() && box.x <= paddle.getX() + paddle.getWidth();
     }
 
-    public void collidesWithBrick(List<Brick> bricks) {
+    /**
+     * 处理与砖块发生的碰撞
+     *
+     * @param bricks 砖块数组
+     */
+    public void handleCollidesWithBrick(List<Brick> bricks) {
         for (Brick brick : bricks) {
-            if (!brick.isEnabled()) {
+            if (!brick.isEnabled()) { // 忽略未启用的砖块
                 continue;
             }
             if (box.x + radius >= brick.box.x && box.x - radius <= brick.box.x + brick.box.width &&

@@ -11,6 +11,6 @@ public class DesktopLauncher {
         config.setTitle("Break Bricks");
         config.setResizable(false);
         config.setWindowedMode(540, 960);
-        new Lwjgl3Application(new Tutorial(), config);
+        new Lwjgl3Application(new BreakBricks(), config);
     }
 }
