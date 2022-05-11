@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.tomoto.tutorial.BreakBricks;
 import io.tomoto.tutorial.sprite.Ball;
 import io.tomoto.tutorial.sprite.Brick;
 import io.tomoto.tutorial.sprite.Paddle;
 import io.tomoto.tutorial.sprite.Sprite;
+import io.tomoto.tutorial.utils.InputManager;
 
 import java.util.*;
 
@@ -78,7 +81,7 @@ public class GameScene implements Screen {
         ball = new Ball("ball", Gdx.graphics.getWidth() / 2, 100, 20, 5, 5, paddle);
         int brickWidth = 60;
         int brickHeight = 10;
-        for (int y = Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4; y < Gdx.graphics.getHeight(); y += brickHeight + 10) {
+        for (int y = Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4; y < Gdx.graphics.getHeight() - 50; y += brickHeight + 10) {
             for (int x = 0; x < Gdx.graphics.getWidth(); x += brickWidth + 10) {
                 bricks.add(new Brick("brick-" + x + y, x, y, brickWidth, brickHeight));
             }
@@ -114,11 +117,34 @@ public class GameScene implements Screen {
         shapeRenderer.end();
 
         // 逻辑检查
-        ball.handleCollidesWithBrick(bricks);
+        // 球与砖块碰撞检查
+        for (Brick brick : bricks) {
+            if (!brick.isEnabled()) {
+                continue;
+            }
+            if (ball.collidesWithBrick(brick)) {
+                brick.setEnabled(false);
+                ball.setySpeed(-ball.getySpeed());
+                break;
+            }
+        }
+        // 球与板子碰撞检查
+        if (ball.collidesWithPaddle()) {
+            ball.setySpeed(-ball.getySpeed());
+            Vector2 vec2 = new Vector2(ball.getxSpeed(), ball.getySpeed());
+            if (InputManager.isPressRight()) {
+                vec2 = vec2.rotateRad(MathUtils.PI / 12);
+            } else if (InputManager.isPressLeft()) {
+                vec2 = vec2.rotateRad(-MathUtils.PI / 12);
+            }
+            ball.setxSpeed((int) vec2.x).setySpeed((int) vec2.y);
+        }
+        // 胜利检查
         if (bricks.stream().noneMatch(Sprite::isEnabled)) {
             game.setScreen(new TitleScene(game, "YOU WIN!", "PRESS ANY KEY TO RESTART"));
             dispose();
         }
+        // 失败检查
         if (!ball.isEnabled()) {
             game.setScreen(new TitleScene(game, "GAME OVER!", "PRESS ANY KEY TO RESTART"));
             dispose();

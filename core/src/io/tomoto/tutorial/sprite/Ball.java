@@ -57,7 +57,7 @@ public class Ball extends Sprite {
         if (box.x < radius || box.x > Gdx.graphics.getWidth() - radius) {
             xSpeed *= -1;
         }
-        if (box.y > Gdx.graphics.getHeight() - radius || collidesWithPaddle()) {
+        if (box.y > Gdx.graphics.getHeight() - radius) {
             ySpeed *= -1;
         }
         if (box.y < radius) {
@@ -77,28 +77,14 @@ public class Ball extends Sprite {
      *
      * @return 是否与板子发生碰撞
      */
-    private boolean collidesWithPaddle() {
+    public boolean collidesWithPaddle() {
         return box.y - radius < paddle.getY() + paddle.getHeight() && box.y > paddle.getY() &&
                 box.x >= paddle.getX() && box.x <= paddle.getX() + paddle.getWidth();
     }
 
-    /**
-     * 处理与砖块发生的碰撞
-     *
-     * @param bricks 砖块数组
-     */
-    public void handleCollidesWithBrick(List<Brick> bricks) {
-        for (Brick brick : bricks) {
-            if (!brick.isEnabled()) { // 忽略未启用的砖块
-                continue;
-            }
-            if (box.x + radius >= brick.box.x && box.x - radius <= brick.box.x + brick.box.width &&
-                    box.y + radius >= brick.box.y && box.y - radius <= brick.box.y + brick.box.height) {
-                brick.setEnabled(false);
-                ySpeed *= -1;
-                break;
-            }
-        }
+    public boolean collidesWithBrick(Brick brick) {
+        return box.x + radius >= brick.box.x && box.x - radius <= brick.box.x + brick.box.width &&
+                box.y + radius >= brick.box.y && box.y - radius <= brick.box.y + brick.box.height;
     }
 
     public int getX() {

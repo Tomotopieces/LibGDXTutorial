@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import io.tomoto.tutorial.scene.TitleScene;
 
 /**
- * The game
+ * 打砖块
  */
 public class BreakBricks extends Game {
 

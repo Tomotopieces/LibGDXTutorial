@@ -1,9 +1,9 @@
 package io.tomoto.tutorial.sprite;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import io.tomoto.tutorial.utils.InputManager;
 
 import java.awt.*;
 
@@ -38,29 +38,11 @@ public class Paddle extends Sprite {
 
     public void update() {
         // 输入与边界检测
-        if (pressLeft() && box.x > 0) {
+        if (InputManager.isPressLeft() && box.x > 0) {
             box.x -= xSpeed;
-        } else if (isPressRight() && box.x < Gdx.graphics.getWidth() - box.width) {
+        } else if (InputManager.isPressRight() && box.x < Gdx.graphics.getWidth() - box.width) {
             box.x += xSpeed;
         }
-    }
-
-    /**
-     * 是否按下右操作的按键
-     *
-     * @return 是否按下右操作的按键
-     */
-    private boolean isPressRight() {
-        return Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D);
-    }
-
-    /**
-     * 是否按下左操作的按键
-     *
-     * @return 是否按下左操作的按键
-     */
-    private boolean pressLeft() {
-        return Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A);
     }
 
     public void draw(ShapeRenderer renderer) {
