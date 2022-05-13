@@ -1,17 +1,16 @@
 package io.tomoto.tutorial.sprite;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-import java.awt.*;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
- * Sprite
+ * 几何Sprite
  *
  * @author Tomoto
  * @version 1.0
  * @since 1.0 2022/5/10 14:56
  */
-public abstract class Sprite {
+public abstract class GeometricSprite {
     /**
      * id
      */
@@ -33,7 +32,7 @@ public abstract class Sprite {
      * @param id  id
      * @param box 坐标与尺寸
      */
-    public Sprite(String id, Rectangle box) {
+    public GeometricSprite(String id, Rectangle box) {
         this.box = box;
         this.id = id;
         this.enabled = true;
@@ -55,7 +54,7 @@ public abstract class Sprite {
         return id;
     }
 
-    public Sprite setId(String id) {
+    public GeometricSprite setId(String id) {
         this.id = id;
         return this;
     }
@@ -64,7 +63,7 @@ public abstract class Sprite {
         return enabled;
     }
 
-    public Sprite setEnabled(boolean enabled) {
+    public GeometricSprite setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }

@@ -2,8 +2,7 @@ package io.tomoto.tutorial.sprite;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-import java.awt.*;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * 砖块
@@ -12,7 +11,7 @@ import java.awt.*;
  * @version 1.0
  * @since 1.0 2022/5/10 20:14
  */
-public class Brick extends Sprite {
+public class Brick extends GeometricSprite {
     /**
      * 构造初始化
      *
@@ -22,7 +21,7 @@ public class Brick extends Sprite {
      * @param width  宽度
      * @param height 高度
      */
-    public Brick(String id, int x, int y, int width, int height) {
+    public Brick(String id, float x, float y, float width, float height) {
         super(id, new Rectangle(x, y, width, height));
     }
 

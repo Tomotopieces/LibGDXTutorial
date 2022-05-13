@@ -3,9 +3,8 @@ package io.tomoto.tutorial.sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import io.tomoto.tutorial.utils.InputManager;
-
-import java.awt.*;
 
 /**
  * 板子
@@ -14,11 +13,11 @@ import java.awt.*;
  * @version 1.0
  * @since 1.0 2022/5/10 14:36
  */
-public class Paddle extends Sprite {
+public class Paddle extends GeometricSprite {
     /**
      * 横向速度
      */
-    private int xSpeed;
+    private float xSpeed;
 
     /**
      * 构造初始化
@@ -30,7 +29,7 @@ public class Paddle extends Sprite {
      * @param height 高度
      * @param xSpeed 横向速度
      */
-    public Paddle(String id, int x, int y, int width, int height, int xSpeed) {
+    public Paddle(String id, float x, float y, float width, float height, float xSpeed) {
         super(id, new Rectangle(x, y, width, height));
 
         this.xSpeed = xSpeed;
@@ -52,47 +51,47 @@ public class Paddle extends Sprite {
         renderer.rect(box.x, box.y, box.width, box.height);
     }
 
-    public int getX() {
+    public float getX() {
         return box.x;
     }
 
-    public Paddle setX(int x) {
+    public Paddle setX(float x) {
         this.box.x = x;
         return this;
     }
 
-    public int getY() {
+    public float getY() {
         return box.y;
     }
 
-    public Paddle setY(int y) {
+    public Paddle setY(float y) {
         this.box.y = y;
         return this;
     }
 
-    public int getWidth() {
+    public float getWidth() {
         return box.width;
     }
 
-    public Paddle setWidth(int width) {
+    public Paddle setWidth(float width) {
         this.box.width = width;
         return this;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return box.height;
     }
 
-    public Paddle setHeight(int height) {
+    public Paddle setHeight(float height) {
         this.box.height = height;
         return this;
     }
 
-    public int getxSpeed() {
+    public float getxSpeed() {
         return xSpeed;
     }
 
-    public Paddle setxSpeed(int xSpeed) {
+    public Paddle setxSpeed(float xSpeed) {
         this.xSpeed = xSpeed;
         return this;
     }

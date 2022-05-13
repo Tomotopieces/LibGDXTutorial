@@ -4,14 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.tomoto.tutorial.BreakBricks;
 import io.tomoto.tutorial.sprite.Ball;
 import io.tomoto.tutorial.sprite.Brick;
+import io.tomoto.tutorial.sprite.GeometricSprite;
 import io.tomoto.tutorial.sprite.Paddle;
-import io.tomoto.tutorial.sprite.Sprite;
 import io.tomoto.tutorial.utils.InputManager;
 
 import java.util.*;
@@ -42,7 +40,7 @@ public class GameScene implements Screen {
     /**
      * 渲染元素map
      */
-    private final Map<String, Sprite> renderSpriteMap = new HashMap<>();
+    private final Map<String, GeometricSprite> renderSpriteMap = new HashMap<>();
 
     /**
      * 待移除元素id集合
@@ -107,7 +105,7 @@ public class GameScene implements Screen {
         for (String id : removeSet) { // 渲染前移除待移除元素
             renderSpriteMap.remove(id);
         }
-        for (Sprite sprite : renderSpriteMap.values()) {
+        for (GeometricSprite sprite : renderSpriteMap.values()) {
             if (!sprite.isEnabled()) {
                 continue;
             }
@@ -131,16 +129,14 @@ public class GameScene implements Screen {
         // 球与板子碰撞检查
         if (ball.collidesWithPaddle()) {
             ball.setySpeed(-ball.getySpeed());
-            Vector2 vec2 = new Vector2(ball.getxSpeed(), ball.getySpeed());
             if (InputManager.isPressRight()) {
-                vec2 = vec2.rotateRad(MathUtils.PI / 12);
+                ball.setxSpeed(ball.getxSpeed() + 1);
             } else if (InputManager.isPressLeft()) {
-                vec2 = vec2.rotateRad(-MathUtils.PI / 12);
+                ball.setxSpeed(ball.getxSpeed() - 1);
             }
-            ball.setxSpeed((int) vec2.x).setySpeed((int) vec2.y);
         }
         // 胜利检查
-        if (bricks.stream().noneMatch(Sprite::isEnabled)) {
+        if (bricks.stream().noneMatch(GeometricSprite::isEnabled)) {
             game.setScreen(new TitleScene(game, "YOU WIN!", "PRESS ANY KEY TO RESTART"));
             dispose();
         }
@@ -176,7 +172,7 @@ public class GameScene implements Screen {
      *
      * @param sprite 元素
      */
-    public void addRenderSprite(Sprite sprite) {
+    public void addRenderSprite(GeometricSprite sprite) {
         renderSpriteMap.put(sprite.getId(), sprite);
     }
 

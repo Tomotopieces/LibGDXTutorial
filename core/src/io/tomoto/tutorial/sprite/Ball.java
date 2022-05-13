@@ -3,9 +3,7 @@ package io.tomoto.tutorial.sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-import java.awt.*;
-import java.util.List;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * 球
@@ -14,19 +12,19 @@ import java.util.List;
  * @version 1.0
  * @since 1.0 2022/5/10 9:27
  */
-public class Ball extends Sprite {
+public class Ball extends GeometricSprite {
     /**
      * 半径
      */
-    private int radius;
+    private float radius;
     /**
      * 横向速度
      */
-    private int xSpeed;
+    private float xSpeed;
     /**
      * 纵向速度
      */
-    private int ySpeed;
+    private float ySpeed;
 
     /**
      * 板子
@@ -42,7 +40,7 @@ public class Ball extends Sprite {
      * @param ySpeed 纵向速度
      * @param paddle 板子
      */
-    public Ball(String id, int x, int y, int radius, int xSpeed, int ySpeed, Paddle paddle) {
+    public Ball(String id, float x, float y, float radius, float xSpeed, float ySpeed, Paddle paddle) {
         super(id, new Rectangle(x, y, radius * 2, radius * 2));
 
         this.radius = radius;
@@ -54,10 +52,10 @@ public class Ball extends Sprite {
     public void update() {
         box.x += xSpeed;
         box.y += ySpeed;
-        if (box.x < radius || box.x > Gdx.graphics.getWidth() - radius) {
+        if (box.x < 0 || box.x > Gdx.graphics.getWidth() - radius * 2) {
             xSpeed *= -1;
         }
-        if (box.y > Gdx.graphics.getHeight() - radius) {
+        if (box.y > Gdx.graphics.getHeight() - radius * 2) {
             ySpeed *= -1;
         }
         if (box.y < radius) {
@@ -67,9 +65,9 @@ public class Ball extends Sprite {
 
     public void draw(ShapeRenderer shape) {
         shape.setColor(Color.BLACK);
-        shape.circle(box.x, box.y, radius + 2);
+        shape.circle(box.x + radius, box.y + radius, radius + 2);
         shape.setColor(0.8f, 0.8f, 0.8f, 1);
-        shape.circle(box.x, box.y, radius);
+        shape.circle(box.x + radius, box.y + radius, radius);
     }
 
     /**
@@ -78,56 +76,54 @@ public class Ball extends Sprite {
      * @return 是否与板子发生碰撞
      */
     public boolean collidesWithPaddle() {
-        return box.y - radius < paddle.getY() + paddle.getHeight() && box.y > paddle.getY() &&
-                box.x >= paddle.getX() && box.x <= paddle.getX() + paddle.getWidth();
+        return paddle.box.overlaps(box);
     }
 
     public boolean collidesWithBrick(Brick brick) {
-        return box.x + radius >= brick.box.x && box.x - radius <= brick.box.x + brick.box.width &&
-                box.y + radius >= brick.box.y && box.y - radius <= brick.box.y + brick.box.height;
+        return brick.box.overlaps(box);
     }
 
-    public int getX() {
+    public float getX() {
         return box.x;
     }
 
-    public Ball setX(int x) {
+    public Ball setX(float x) {
         this.box.x = x;
         return this;
     }
 
-    public int getY() {
+    public float getY() {
         return box.y;
     }
 
-    public Ball setY(int y) {
+    public Ball setY(float y) {
         this.box.y = y;
         return this;
     }
 
-    public int getRadius() {
+    public float getRadius() {
         return radius;
     }
 
-    public Ball setRadius(int radius) {
+    public Ball setRadius(float radius) {
         this.radius = radius;
         return this;
     }
 
-    public int getxSpeed() {
+    public float getxSpeed() {
         return xSpeed;
     }
 
-    public Ball setxSpeed(int xSpeed) {
+    public Ball setxSpeed(float xSpeed) {
         this.xSpeed = xSpeed;
         return this;
     }
 
-    public int getySpeed() {
+    public float getySpeed() {
         return ySpeed;
     }
 
-    public Ball setySpeed(int ySpeed) {
+    public Ball setySpeed(float ySpeed) {
         this.ySpeed = ySpeed;
         return this;
     }
